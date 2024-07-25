@@ -7,10 +7,10 @@ import (
 
 func TestGrantAppAccess2Token(t *testing.T) {
 	conf := &openapi.ApolloClientConfig{
-		PortalAddr:   "http://apollo-hw.qa.xgimi.com",
-		Username:     "apollo",
-		Password:     "*xDIivRZfvXieWaDb#DFeq&^RLoP4$Nn",
-		OpenapiToken: "ea2ac40af3cd4212a3041e9240eac7aa1c4678e3",
+		PortalAddr:   "http://apollo-xxx.com", //there is no / at the end of the url
+		Username:     "your_username",
+		Password:     "your_password",
+		OpenapiToken: "your_openapi_token",
 	}
 	c, err := openapi.NewApolloClient(conf)
 	if err != nil {
@@ -25,10 +25,10 @@ func TestGrantAppAccess2Token(t *testing.T) {
 }
 func TestGetAllAppInfo(t *testing.T) {
 	conf := &openapi.ApolloClientConfig{
-		PortalAddr:   "http://apollo-hw.qa.xgimi.com",
-		Username:     "apollo",
-		Password:     "*xDIivRZfvXieWaDb#DFeq&^RLoP4$Nn",
-		OpenapiToken: "ea2ac40af3cd4212a3041e9240eac7aa1c4678e3",
+		PortalAddr:   "http://apollo-xxx.com", //there is no / at the end of the url
+		Username:     "your_username",
+		Password:     "your_password",
+		OpenapiToken: "your_openapi_token",
 	}
 	c, err := openapi.NewApolloClient(conf)
 	if err != nil {
