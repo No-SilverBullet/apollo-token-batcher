@@ -1,4 +1,4 @@
-package apollotokenbatcher
+package openapi
 
 import (
 	"net/http"
@@ -12,7 +12,7 @@ var (
 )
 
 // ApolloClient is the client for Apollo, which is used to grant the token access
-type ApolloClient struct {
+type apolloClient struct {
 	client       *http.Client
 	portalAddr   string
 	openapiToken string
@@ -22,21 +22,22 @@ type ApolloClient struct {
 
 // ApolloClientConfig is the configuration for ApolloClient
 type ApolloClientConfig struct {
-	PortalAddr   string `json:"portalAddr" validate:"required"`
-	Username     string `json:"username" validate:"required"`
-	Password     string `json:"password" validate:"required"`
-	OpenapiToken string `json:"openapiToken" validate:"required"`
+	PortalAddr   string `json:"portalAddr" validate:"required"`   // Apollo portal address,example: http://apollo.xxx.com
+	Username     string `json:"username" validate:"required"`     // Apollo username
+	Password     string `json:"password" validate:"required"`     // Apollo password
+	OpenapiToken string `json:"openapiToken" validate:"required"` // Apollo openapi token
 }
 
 func (conf *ApolloClientConfig) Validate() error {
 	return validate.Struct(conf)
 }
 
-func New(conf *ApolloClientConfig) (*ApolloClient, error) {
+// NewApolloClient creates a new ApolloClient
+func NewApolloClient(conf *ApolloClientConfig) (*apolloClient, error) {
 	if err := conf.Validate(); err != nil {
 		return nil, err
 	}
-	c := &ApolloClient{
+	c := &apolloClient{
 		client: &http.Client{
 			Timeout: time.Second * 10,
 		},

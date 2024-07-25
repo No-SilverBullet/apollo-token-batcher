@@ -1,15 +1,14 @@
-package apollotokenbatcher
+package openapi
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 )
 
-// return the cookies
-func (s *ApolloClient) GetApolloCookies() ([]*http.Cookie, error) {
+// return the cookies of apollo login
+func (s *apolloClient) GetApolloCookies() ([]*http.Cookie, error) {
 	loginUrl := fmt.Sprintf("%s/signin", s.portalAddr)
 	req, err := http.NewRequest(http.MethodPost, loginUrl, nil)
 	if err != nil {
@@ -25,7 +24,8 @@ func (s *ApolloClient) GetApolloCookies() ([]*http.Cookie, error) {
 	return resp.Cookies(), nil
 }
 
-func (s *ApolloClient) GetAllAppInfos() ([]*AppInfo, error) {
+// get all app info
+func (s *apolloClient) GetAllAppInfos() ([]*AppInfo, error) {
 	cookies, err := s.GetApolloCookies()
 	if err != nil {
 		return nil, err
@@ -48,7 +48,9 @@ func (s *ApolloClient) GetAllAppInfos() ([]*AppInfo, error) {
 	}
 	return apps, nil
 }
-func (s *ApolloClient) GrantAppAccess2Token(r *GrantAppAccess2TokenRequest) error {
+
+// grant app access to openApi token
+func (s *apolloClient) GrantAppAccess2Token(r *GrantAppAccess2TokenRequest) error {
 	cookies, err := s.GetApolloCookies()
 	if err != nil {
 		return err
@@ -59,7 +61,6 @@ func (s *ApolloClient) GrantAppAccess2Token(r *GrantAppAccess2TokenRequest) erro
 	if err != nil {
 		return err
 	}
-	fmt.Printf("cookies:%v", cookies)
 	req.Header.Add("content-type", "application/json")
 	for _, cookie := range cookies {
 		req.AddCookie(cookie)
@@ -69,13 +70,13 @@ func (s *ApolloClient) GrantAppAccess2Token(r *GrantAppAccess2TokenRequest) erro
 		return err
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	res := &GrantAppAccess2TokenResponse{}
+	err = json.NewDecoder(resp.Body).Decode(res)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("%s", string(body))
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("failed to grant access, status code: %d", resp.StatusCode)
+		return fmt.Errorf("failed to grant access, status code: %d,message: %s", resp.StatusCode, res.Message)
 	}
 	return nil
 }
