@@ -27,6 +27,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	// print app total count
 	println("app total count :%d", len(appInfos))
+	// grant ALL app access to openApi token
+	for _, appInfo := range appInfos {
+		err = c.GrantAppAccess2Token(&apollo_token.GrantAppAccess2TokenRequest{
+			AppID: appInfo.AppID,
+		})
+		if err != nil {
+			panic(err)
+		}
+	}
 }

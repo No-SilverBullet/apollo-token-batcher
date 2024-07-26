@@ -48,6 +48,20 @@ func main() {
 
 ```
 
+So, to grant application permissions to Apollo’s openapi token in batches,u can fisrt get all applications info and then grant to these applications permission; 
+
+```go
+	// grant ALL app access to openApi token
+	for _, appInfo := range appInfos {
+		err = c.GrantAppAccess2Token(&apollo_token.GrantAppAccess2TokenRequest{
+			AppID: appInfo.AppID,
+		})
+		if err != nil {
+			panic(err)
+		}
+	}
+```
+
 
 
 If this is helpful for u, please give me a star,thanks~ 
