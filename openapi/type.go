@@ -17,7 +17,7 @@ type GrantAppAccess2TokenRequest struct {
 	AppID string `json:"appId"`
 }
 
-type GrantAppAccess2TokenResponse struct {
+type GrantAppAccess2TokenFailedResponse struct {
 	Exception string `json:"exception"`
 	Message   string `json:"message"`
 	Status    int32  `json:"status"`
