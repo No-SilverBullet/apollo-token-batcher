@@ -1,8 +1,9 @@
 package apollotokenbatcher
 
 import (
-	"apollo-token-batcher/openapi"
 	"testing"
+
+	"github.com/No-SilverBullet/apollo-token-batcher/openapi"
 )
 
 func TestGrantAppAccess2Token(t *testing.T) {

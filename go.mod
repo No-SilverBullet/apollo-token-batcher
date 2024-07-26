@@ -1,4 +1,4 @@
-module apollo-token-batcher
+module github.com/No-SilverBullet/apollo-token-batcher
 
 go 1.17
 
