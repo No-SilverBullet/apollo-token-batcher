@@ -30,6 +30,9 @@ func main() {
 	println("app total count :%d", len(appInfos))
 	// grant ALL app access to openApi token
 	for _, appInfo := range appInfos {
+		if appInfo.IsDeleted {
+			continue
+		}
 		err = c.GrantAppAccess2Token(&apollo_token.GrantAppAccess2TokenRequest{
 			AppID: appInfo.AppID,
 		})

@@ -53,6 +53,9 @@ So, to grant application permissions to Apollo’s openapi token in batches,u ca
 ```go
 	// grant ALL app access to openApi token
 	for _, appInfo := range appInfos {
+		if appInfo.IsDeleted {
+			continue
+		}
 		err = c.GrantAppAccess2Token(&apollo_token.GrantAppAccess2TokenRequest{
 			AppID: appInfo.AppID,
 		})
@@ -65,4 +68,3 @@ So, to grant application permissions to Apollo’s openapi token in batches,u ca
 
 
 If this is helpful for u, please give me a star,thanks~ 
-

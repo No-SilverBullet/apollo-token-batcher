@@ -70,13 +70,13 @@ func (s *apolloClient) GrantAppAccess2Token(r *GrantAppAccess2TokenRequest) erro
 		return err
 	}
 	defer resp.Body.Close()
-	res := &GrantAppAccess2TokenResponse{}
-	err = json.NewDecoder(resp.Body).Decode(res)
-	if err != nil {
-		return err
-	}
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("failed to grant access, status code: %d,message: %s", resp.StatusCode, res.Message)
+		failRes := &GrantAppAccess2TokenFailedResponse{}
+		err = json.NewDecoder(resp.Body).Decode(failRes)
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("failed to grant access, status code: %d,message: %s", resp.StatusCode, failRes.Message)
 	}
 	return nil
 }
