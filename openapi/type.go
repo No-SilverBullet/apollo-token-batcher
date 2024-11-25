@@ -23,3 +23,16 @@ type GrantAppAccess2TokenFailedResponse struct {
 	Status    int32  `json:"status"`
 	TimeStamp string `json:"timeStamp"`
 }
+
+type CreateClusterRequest struct {
+	Name                string `json:"name"`
+	AppId               string `json:"appId"`
+	DataChangeCreatedBy string `json:"dataChangeCreatedBy"`
+	Env                 string `json:"env"`
+}
+
+type DeleteClusterRequest struct {
+	Name  string `json:"name"`
+	AppId string `json:"appId"`
+	Env   string `json:"env"`
+}

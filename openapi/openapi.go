@@ -80,3 +80,56 @@ func (s *apolloClient) GrantAppAccess2Token(r *GrantAppAccess2TokenRequest) erro
 	}
 	return nil
 }
+
+// create cluster
+func (s *apolloClient) CreateCluster(r *CreateClusterRequest) error {
+	cookies, err := s.GetApolloCookies()
+	if err != nil {
+		return err
+	}
+	grantAccessUrl := fmt.Sprintf("%s/apps/%s/envs/%s/clusters", s.portalAddr, r.AppId, r.Env)
+	postData, _ := json.Marshal(r)
+	req, err := http.NewRequest(http.MethodPost, grantAccessUrl, bytes.NewReader(postData))
+	if err != nil {
+		return err
+	}
+	req.Header.Add("content-type", "application/json")
+	for _, cookie := range cookies {
+		req.AddCookie(cookie)
+	}
+	resp, err := s.client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return err
+	}
+	return nil
+}
+
+func (s *apolloClient) DeleteCluster(r *DeleteClusterRequest) error {
+	cookies, err := s.GetApolloCookies()
+	if err != nil {
+		return err
+	}
+	grantAccessUrl := fmt.Sprintf("%s/apps/%s/envs/%s/clusters/%s", s.portalAddr, r.AppId, r.Env, r.Name)
+
+	req, err := http.NewRequest(http.MethodDelete, grantAccessUrl, nil)
+	if err != nil {
+		return err
+	}
+	req.Header.Add("content-type", "application/json")
+	for _, cookie := range cookies {
+		req.AddCookie(cookie)
+	}
+	resp, err := s.client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return err
+	}
+	return nil
+}
