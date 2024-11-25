@@ -39,7 +39,7 @@ func NewApolloClient(conf *ApolloClientConfig) (*apolloClient, error) {
 	}
 	c := &apolloClient{
 		client: &http.Client{
-			Timeout: time.Second * 10,
+			Timeout: time.Second * 100,
 		},
 		portalAddr:   conf.PortalAddr,
 		username:     conf.Username,
